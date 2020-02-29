@@ -19,7 +19,7 @@ node {
       }
    }
    stage('deploy') {
-      deploy adapters: [tomcat9(credentialsId: 'd7147911-c9b9-4299-8164-24c7e030e881', path: '', url: 'http://192.168.43.167:8080/')], contextPath: null, war: '**/*.war'
+      sshPublisher(publishers: [sshPublisherDesc(configName: 'Main server', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'ansible-playbook -i /etc/ansible/hosts /usr/local/ansible-test/ans-copy.yml ;', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '**/*.war')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
    }
    stage('Results') {
       echo "Executed successfully"
